@@ -1,6 +1,6 @@
 // This module defines states and logic for the traffic lights design
-module intersection (clk, SN, SS, RedPixels, GrnPixels);
-	input logic clk, SN, SS;
+module intersection (clk, SN, RedPixels, GrnPixels);
+	input logic clk, SN;
 	output logic [15:0][15:0] RedPixels; // 16x16 array of red LEDs
    output logic [15:0][15:0] GrnPixels; // 16x16 array of green LEDs
 	logic T, L, S;
@@ -18,9 +18,9 @@ module intersection (clk, SN, SS, RedPixels, GrnPixels);
 		
 		R:		 if(~T) ns = R;
 		       else if((L&T) | (~S & T)) ns = HG;
-				 else(~L & T & S) ns = FG;
+				 else ns = FG;
 		HG:    if(~L | ~T | ~S) ns = HG;
-				 else(S & T & L) ns = HY;
+				 else ns = HY;
 		HY:    if(T) ns = R;
 				 else ns = HY;	
 		FG:	 if(~T) ns = FG;
@@ -237,14 +237,13 @@ endmodule
 
 //Intersection testbench
 module intersection_testbench();
-    logic clk, SN, SS;
+    logic clk, SN;
     logic [15:0][15:0] RedPixels_tb;
     logic [15:0][15:0] GrnPixels_tb;
     
     intersection dut (
         .clk(clk),
         .SN(SN),
-        .SS(SS),
         .RedPixels(RedPixels_tb),
         .GrnPixels(GrnPixels_tb)
     );
@@ -256,17 +255,12 @@ module intersection_testbench();
     // Initialize inputs
     initial begin
         clk = 0;
-        SN = 0;
-        SS = 0;
+		  SN = 0;
+		  SN = 1;
+		  /*
+			procedure here
+			*/
         
-        // Apply stimulus
-        #40 SN = 1; SS = 0; // North cycle, rest red
-        #40 SN = 0; SS = 1; // South cycle, rest red
-        #40 SN = 0; SS = 0; // Normal (counterclockwise) cycle
-        #150 SN = 1; SS = 0; // North cycle
-        #80 SN = 0; SS = 0; // Normal cycle
-        #80 SN = 1; SS = 1; // Normal cycle
-        #80 $stop; // End the simulation
     end
     
 endmodule
