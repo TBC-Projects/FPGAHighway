@@ -71,7 +71,7 @@ module intersection (clk, SN, RedPixels, GrnPixels);
         end
 		R:    begin
       //                  FEDCBA9876543210
-          RedPixels[00] = 16'b0000000011100000;
+          RedPixels[00] = 16'b0000011100000000;
           RedPixels[01] = 16'b0000000000000000;
           RedPixels[02] = 16'b0000000000000000;
           RedPixels[03] = 16'b0000000000000000;
@@ -86,7 +86,7 @@ module intersection (clk, SN, RedPixels, GrnPixels);
           RedPixels[12] = 16'b0000000000000000;
           RedPixels[13] = 16'b0000000000000000;
           RedPixels[14] = 16'b0000000000000000;
-          RedPixels[15] = 16'b0000011100000000;
+          RedPixels[15] = 16'b0000000011100000;
 
           //                  FEDCBA9876543210
           GrnPixels[00] = 16'b0000000000000000;
@@ -153,9 +153,9 @@ module intersection (clk, SN, RedPixels, GrnPixels);
           RedPixels[04] = 16'b0000000000000000;
           RedPixels[05] = 16'b0000000000000000;
           RedPixels[06] = 16'b0000000000000000;
-          RedPixels[07] = 16'b1000000000000001;
-          RedPixels[08] = 16'b1000000000000001;
-          RedPixels[09] = 16'b1000000000000001;
+          RedPixels[07] = 16'b0000000000000000;
+          RedPixels[08] = 16'b0000000000000000;
+          RedPixels[09] = 16'b0000000000000000;
           RedPixels[10] = 16'b0000000000000000;
           RedPixels[11] = 16'b0000000000000000;
           RedPixels[12] = 16'b0000000000000000;
@@ -225,13 +225,15 @@ module intersection (clk, SN, RedPixels, GrnPixels);
 	
 	// DFFs
 	always_ff @(posedge clk) begin
-			S = SN;
-			sel = ~sel;
-			T =~T;
-			if(sel) sel2=~sel2;
-			if(sel2) L=~L;
+			S <= SN;
+			sel <= ~sel;
+			T <= ~T;
+			if(sel) sel2 <= ~sel2;
+			if(sel2) L <= ~L;
 			
+			ps <= ns;
 	end
+
 	
 endmodule
 
