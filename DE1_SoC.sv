@@ -44,7 +44,7 @@ module DE1_SoC (HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, KEY, SW, LEDR, GPIO_1, CLOCK
 	    See LEDDriver.sv for more info. Do not modify unless you know what you are doing! */
 	 LEDDriver Driver (.CLK(SYSTEM_CLOCK), .RST, .EnableCount(1'b1), .RedPixels, .GrnPixels, .GPIO_1);
 
-	 intersection pendOreille25(.clk(traffic), .SN(~KEY[3]), .SS(SW[1]), .RedPixels(RedPixels), .GrnPixels(GrnPixels));
+	 intersection pendOreille25(.clk(traffic), .SN(~KEY[3]), .RedPixels(RedPixels), .GrnPixels(GrnPixels));
 	 
 endmodule
 
